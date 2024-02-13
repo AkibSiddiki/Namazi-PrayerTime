@@ -191,4 +191,76 @@ class NamazController extends Controller
                 "shariatpur" => array("latitude" => 23.2415, "longitude" => 90.4344),
             );
     }
+
+    function calculatePrayerTimes($latitude, $longitude, $timezone, $date)
+    {
+        // Validate input parameters
+        if (!is_numeric($latitude) || !is_numeric($longitude) || !is_numeric($timezone)) {
+            return "Invalid input parameters";
+        }
+        if (!filter_var($latitude, FILTER_VALIDATE_FLOAT, array("options" => array("min_range" => -90, "max_range" => 90)))) {
+            return "Invalid latitude value";
+        }
+        if (!filter_var($longitude, FILTER_VALIDATE_FLOAT, array("options" => array("min_range" => -180, "max_range" => 180)))) {
+            return "Invalid longitude value";
+        }
+        if (!filter_var($timezone, FILTER_VALIDATE_FLOAT, array("options" => array("min_range" => -12, "max_range" => 14)))) {
+            return "Invalid timezone value";
+        }
+
+        // Set the timezone
+        date_default_timezone_set("Etc/GMT" . ($timezone > 0 ? "-" : "+") . abs($timezone));
+
+        // Convert date to timestamp
+        $timestamp = strtotime($date);
+
+        // Calculate the Julian date
+        $julianDate = $timestamp / 86400 - 0.5 + 2440587.5;
+
+        // Calculate the declination of the sun
+        $n = $julianDate - 2451545.0;
+        $L = 280.460 + 0.9856474 * $n;
+        $g = 357.528 + 0.9856003 * $n;
+        $lambda = $L + 1.915 * sin(deg2rad($g)) + 0.020 * sin(2 * deg2rad($g));
+        $epsilon = 23.439 - 0.0000004 * $n;
+        $delta = asin(sin(deg2rad($epsilon)) * sin(deg2rad($lambda)));
+
+        // Convert latitude to radians
+        $latInRadians = deg2rad($latitude);
+
+        // Define angles for calculation
+        $FAJR_ANGLE = 18;
+        $ISHA_ANGLE = 18;
+
+        // Calculate Fajr time
+        $fajrTime = 12 - (1 / 15) * rad2deg(acos((sin(deg2rad($FAJR_ANGLE)) - sin($latInRadians) * sin($delta)) / (cos($latInRadians) * cos($delta))));
+
+        // Get sunrise and sunset times
+        $sunInfo = date_sun_info($timestamp, $latitude, $longitude);
+
+        // Calculate Dhuhr time
+        $dhuhrTime = 12 - ($longitude / 15);
+
+        // Calculate Asr time
+        $asrTime = $dhuhrTime + (1 / 15) * rad2deg(atan(1 + tan(deg2rad(abs($latInRadians - deg2rad($delta))))));
+
+        // Calculate Maghrib time
+        $maghribTime = 12 + (1 / 15) * rad2deg(acos((sin(deg2rad(-0.833)) - sin($latInRadians) * sin($delta)) / (cos($latInRadians) * cos($delta))));
+
+        // Calculate Isha time
+        $ishaTime = 12 + (1 / 15) * rad2deg(acos((sin(deg2rad($ISHA_ANGLE)) - sin($latInRadians) * sin($delta)) / (cos($latInRadians) * cos($delta))));
+
+        // Format times
+        $prayerTimes = array(
+            'Fajr' => date("H:i", $timestamp + $fajrTime * 3600),
+            'Sunrise' => date("H:i", $sunInfo['sunrise']),
+            'Dhuhr' => date("H:i", $timestamp + $dhuhrTime * 3600),
+            'Asr' => date("H:i", $timestamp + $asrTime * 3600),
+            'Sunset' => date("H:i", $sunInfo['sunset']),
+            'Maghrib' => date("H:i", $timestamp + $maghribTime * 3600),
+            'Isha' => date("H:i", $timestamp + $ishaTime * 3600)
+        );
+
+        return $prayerTimes;
+    }
 }
