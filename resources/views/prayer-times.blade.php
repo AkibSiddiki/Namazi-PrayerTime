@@ -847,8 +847,8 @@
                                     class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed">{{ date('d-m-Y
                                     H:i:s') }}</span></h2>
                             <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Location: <span
-                                    class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed">{{$ipDetails['district']!=''
-                                    ? $ipDetails['district'] : $ipDetails['city']}}, {{$ipDetails['country']}}</span>
+                                    class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed">{{$geoData['district']!=''
+                                    ? $geoData['district'] : $geoData['city']}}, {{$geoData['country']}}</span>
                             </h2>
                             <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Seheri End Time:<span
                                     class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed">
@@ -894,5 +894,7 @@
         </div>
     </div>
 </body>
+
+
 
 </html>
