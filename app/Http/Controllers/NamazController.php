@@ -66,12 +66,12 @@ class NamazController extends Controller
         $longitude = $district_centers[$districtName]['longitude'];
 
         $pt = new PrayerTimes('KARACHI'); //https://github.com/islamic-network/prayer-times/blob/master/src/PrayerTimes/Method.php
-        $pt->tune($imsak = 0, $fajr = 0, $sunrise = 0, $dhuhr = 0, $asr = 0, $maghrib = 0, $sunset = 0, $isha = 0, $midnight = 0);
+        $pt->tune($imsak = 5, $fajr = 0, $sunrise = 0, $dhuhr = 0, $asr = 0, $maghrib = 0, $sunset = 0, $isha = 0, $midnight = 0);
 
 
         $geoData =
             [
-                'country' => 'BD',
+                'country' => 'Bangladesh',
                 'district' => ucfirst($districtName),
             ];
         // for today
