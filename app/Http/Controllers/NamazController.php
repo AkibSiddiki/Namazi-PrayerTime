@@ -57,7 +57,7 @@ class NamazController extends Controller
         $districtName = strtolower($districtName);
 
         if (!isset($district_centers[$districtName])) {
-            return abort(401);
+            return abort(404);
         }
 
 
@@ -66,7 +66,7 @@ class NamazController extends Controller
         $longitude = $district_centers[$districtName]['longitude'];
 
         $pt = new PrayerTimes('KARACHI'); //https://github.com/islamic-network/prayer-times/blob/master/src/PrayerTimes/Method.php
-        $pt->tune($imsak = 5, $fajr = 0, $sunrise = 0, $dhuhr = 0, $asr = 0, $maghrib = 0, $sunset = 0, $isha = 0, $midnight = 0);
+        $pt->tune($imsak = 0, $fajr = 0, $sunrise = 0, $dhuhr = 0, $asr = 0, $maghrib = 0, $sunset = 0, $isha = 0, $midnight = 0);
 
 
         $geoData =
