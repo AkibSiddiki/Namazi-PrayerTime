@@ -57,7 +57,7 @@ class NamazController extends Controller
         $districtName = strtolower($districtName);
 
         if (!isset($district_centers[$districtName])) {
-            return abort(404);
+            return abort(401);
         }
 
 
@@ -71,7 +71,7 @@ class NamazController extends Controller
 
         $geoData =
             [
-                'country' => 'Bangladesh',
+                'country' => 'BD',
                 'district' => ucfirst($districtName),
             ];
         // for today
