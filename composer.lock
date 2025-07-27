@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fbb68ef1b54e1fa82e0e098126227d5",
+    "content-hash": "cca478c99df33611828a55a75204bcc5",
     "packages": [
+        {
+            "name": "agashe/arabic-date",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/agashe/ArabicDate.git",
+                "reference": "ab282f9632669f63176cac8598e1e1a34affc021"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/agashe/ArabicDate/zipball/ab282f9632669f63176cac8598e1e1a34affc021",
+                "reference": "ab282f9632669f63176cac8598e1e1a34affc021",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ArabicDate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Yousef",
+                    "email": "engineer.mohamed.yossef@gmail.com",
+                    "homepage": "http://agashe.ga",
+                    "role": "Senior PHP Developer"
+                }
+            ],
+            "description": "Handle hijri/gregorian calendar in both arabic and english.",
+            "homepage": "https://github.com/agashe/ArabicDate",
+            "keywords": [
+                "calendar",
+                "date",
+                "hijri"
+            ],
+            "support": {
+                "issues": "https://github.com/agashe/ArabicDate/issues",
+                "source": "https://github.com/agashe/ArabicDate/tree/v1.0.0"
+            },
+            "time": "2021-03-27T14:42:08+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.11.0",
@@ -8203,12 +8251,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

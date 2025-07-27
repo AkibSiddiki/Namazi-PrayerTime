@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use IslamicNetwork\PrayerTimes\PrayerTimes;
 use Illuminate\Support\Facades\Http;
+use ArabicDate\ArabicDate;
 
 
 
@@ -47,8 +48,12 @@ class NamazController extends Controller
     }
 
 
-    public function districtPrayerTimes(string $districtName)
+    public function districtPrayerTimes(string $districtName = null)
     {
+        if (empty($districtName)) {
+            $districtName = 'dhaka'; //default district
+        }
+
         define('LATITUDE_ADJUSTMENT_METHOD_ANGLE', 'Angle');
         define('TIME_FORMAT_24H', '24H');
 
@@ -76,8 +81,16 @@ class NamazController extends Controller
             ];
         // for today
         $times = $pt->getTimesForToday($latitude, $longitude, $timezone, $elevation = null, $latitudeAdjustmentMethod = LATITUDE_ADJUSTMENT_METHOD_ANGLE, $midnightMode = null, $format = TIME_FORMAT_24H);
-        return view('prayer-times', compact('times', 'geoData'));
+        $date = new ArabicDate();
+
+        $date->setCalendar('hijri');
+        $date->setLanguage('english');
+        $date->setFormat('d M, Y');
+        $arabicDate = $date->get();
+
+        return view('prayer-times', compact('times', 'geoData', 'arabicDate'));
     }
+
 
     private function getDistrictCoordinates()
     {
